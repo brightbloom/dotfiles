@@ -16,6 +16,12 @@
     programs.starship = {
       enable = true;
       enableZshIntegration = true;
+      settings = {
+        aws.disabled = true;
+        package.disabled = true;
+      python.symbol = "  ";
+      rust.symbol = "  ";
+      };
     };
     programs.zellij = {
       enable = true;

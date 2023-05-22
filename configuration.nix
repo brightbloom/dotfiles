@@ -163,6 +163,7 @@ in
     nodejs # for nvim's bashls
     cargo # for rust-analyzer, etc
     rustc # for rust-analyzer, etc
+    rustup
     rust-analyzer
     wezterm
     usbutils
