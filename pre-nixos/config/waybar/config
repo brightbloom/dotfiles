@@ -1,0 +1,74 @@
+{
+	"layer": "top",
+	"modules-left": ["custom/launcher","cpu","memory","custom/media","tray"],
+	"modules-center": ["sway/workspaces"],
+	"modules-right": ["pulseaudio","network","battery","clock"],
+	
+	"pulseaudio": {
+		"tooltip": false,
+		"scroll-step": 5,
+		"format": "{icon} {volume}%",
+		"format-muted": "{icon} {volume}%",
+		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"format-icons": {
+			"default": ["", "", ""]
+		}
+	},
+
+
+       "sway/workspaces": {
+         "format": "{icon}",
+         "on-click": "activate",
+         "format-icons": {
+           "1": "Main  ",
+           "2": "Slack  ",
+           "3": "Web  ",
+           "4": "4",
+           "5": "5",
+           "urgent": " ",
+           "active": " ",
+         },
+         "sort-by-number": true
+       },
+
+	"network": {
+		"tooltip": false,
+		"format-wifi": "  {essid}",
+		"format-ethernet": ""
+	},
+	"backlight": {
+		"tooltip": false,
+		"format": " {}%",
+		"interval":1,
+        "on-scroll-up": "light -A 5",
+		"on-scroll-down": "light -U 5"
+	},
+	"tray":{
+		"icon-size":18,
+		"spacing": 13
+	},
+    "clock": {
+        "format": "{: %I:%M %p}"
+        // "format": "{: %I:%M %p   %d/%m/%Y}"
+    },
+    "cpu": {
+        "interval": 1,
+        "format": " {usage}% {max_frequency}GHz",
+        "max-length": 20
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "custom/launcher":{
+        "format": "  brightbloom ",
+        "on-click": "wofi -show drun",
+        "on-click-right": "killall wofi"
+    },
+    "custom/wallpaper":{
+        "format":" ",
+        // "on-click": "bash ~/.config/system_scripts/pkill_bc"
+    }
+}
+
