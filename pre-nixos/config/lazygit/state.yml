@@ -1,0 +1,17 @@
+lastupdatecheck: 0
+recentrepos:
+- /home/josh/Repositories/monitorsw
+- /home/josh/Repositories/dotfiles
+- /home/josh/Repositories/wlroots
+- /home/josh/Repositories/scratchpad
+- /home/josh/Repositories/linux-imx
+- /home/josh/Repositories/neovim
+- /home/josh/Repositories/monitorsw-temp
+- /opt/butter_build
+- /home/josh/Repositories/qmk_firmware
+- /home/josh/Repositories/buildroot
+- /home/josh/Repositories/rustlings
+startuppopupversion: 5
+customcommandshistory:
+- q
+hidecommandlog: false
