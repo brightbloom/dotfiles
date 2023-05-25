@@ -13,20 +13,32 @@
     services.dunst = {
       enable = true;
     };
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
     programs.starship = {
       enable = true;
       enableZshIntegration = true;
       settings = {
         aws.disabled = true;
         package.disabled = true;
-      python.symbol = "  ";
-      rust.symbol = "  ";
+      python.symbol = " ";
+      rust.symbol = " ";
       };
     };
     programs.zellij = {
-      enable = true;
+      enable = false;
       enableZshIntegration = true;
       settings = {
+        "keybinds" = {
+        # "keybinds clear-defaults = true" = {
+	  normal = {
+	    "bind \"Ctrl Alt Shift p\"" = {
+		MoveFocus = "Up";
+	    };
+	  };
+	};
         pane_frames = false;
         themes =  {
           catppuccin-latte = {
@@ -89,12 +101,15 @@
       enable = true;
       settings = {
         gui.theme = {
-          lightTheme = true;
+          lightTheme = false;
           activeBorderColor = [ "blue" "bold" ];
           inactiveBorderColor = [ "black" ];
-          selectedLineBgColor = [ "default" ];
+          # selectedLineBgColor = [ "default" ];
         };
       };
+    };
+    programs.kitty = {
+      # enable = true;
     };
     programs.wezterm = {
       enable = true;

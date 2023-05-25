@@ -59,6 +59,7 @@ in
     hyprland.xwayland.hidpi = true;
     nix-ld.enable = true;
     dconf.enable = true;
+    wireshark.enable = true;
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -135,7 +136,7 @@ in
   # Define a user account
   users.users.josh = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "dialout" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "dialout" "wireshark" ]; # "wheel" is for enabling sudo
     shell = pkgs.zsh;
   };
 
@@ -164,8 +165,10 @@ in
     cargo # for rust-analyzer, etc
     rustc # for rust-analyzer, etc
     rustup
+    wireshark
     rust-analyzer
     wezterm
+    kitty
     usbutils
     geekbench
     wget
@@ -184,8 +187,10 @@ in
     zoom-us
     zellij
     qt6.qtwayland
+    killall
     hyprpaper
     delta
+    wlr-randr
     wally-cli
     dunst # notifications
   ];
