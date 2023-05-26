@@ -25,6 +25,7 @@
         package.disabled = true;
       python.symbol = " ";
       rust.symbol = " ";
+      nix_shell.symbol = "❄️ ";
       };
     };
     programs.zellij = {
@@ -106,6 +107,10 @@
           inactiveBorderColor = [ "black" ];
           # selectedLineBgColor = [ "default" ];
         };
+	git.paging = {
+	  colorArg = "always";
+	  pager = "delta --paging=never";
+	};
       };
     };
     programs.kitty = {
