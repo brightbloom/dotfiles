@@ -119,6 +119,9 @@ in
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  # Enable MDNS (needed for printing to Bonjour-enabled endpoints)
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
 
   # Enable sound; Pipewire required for WebRTC, incl. Zoom screen sharing in Wayland
   hardware.pulseaudio.enable = false;
