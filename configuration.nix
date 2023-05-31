@@ -83,6 +83,7 @@ in
 
   services.xserver.enable = true;                      # Windowing system
   services.xserver.displayManager.gdm.enable = true;   # Login manager
+  security.pam.services.gdm.enableGnomeKeyring = true;   # Login manager
   # services.xserver.desktopManager.gnome.enable = true; # Just in case...
 
   # Make XDG apps launch better under Wayland
@@ -194,6 +195,7 @@ in
     hyprpaper
     delta
     wlr-randr
+    zathura
     wally-cli
     dunst # notifications
   ];
