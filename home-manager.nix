@@ -105,6 +105,7 @@
         i = "scroll up";
       };
       options = {
+        selection-clipboard = "clipboard";
         adjust-open = "best-fit";
         zoom-min = "10";
         scroll-step = "50";

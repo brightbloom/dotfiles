@@ -24,6 +24,9 @@ in
   # Enable flakes systemwide
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
+  services.blueman.enable = true;
+  hardware.bluetooth.enable = true;
+
 
   systemd.user.services.nvimserver = {
     enable = true;
@@ -164,6 +167,7 @@ in
     neovim
     neofetch
     neovide
+    bluez
     unzip
     nodejs # for nvim's bashls
     cargo # for rust-analyzer, etc
@@ -195,9 +199,9 @@ in
     hyprpaper
     delta
     wlr-randr
-    zathura
     wally-cli
     dunst # notifications
+    zathura
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
