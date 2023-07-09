@@ -19,6 +19,12 @@
       ".config/tmux/tmux.conf" = {
         text = builtins.readFile ./tmux.conf;
       };
+      ".config/kitty/kitty.conf" = {
+        text = builtins.readFile ./kitty/kitty.conf;
+      };
+      ".config/kitty/current-theme.conf" = {
+        text = builtins.readFile ./kitty/current-theme.conf;
+      };
     };
 
     services.dunst = {
