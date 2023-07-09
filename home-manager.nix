@@ -16,6 +16,9 @@
       ".config/hypr/hyprpaper.conf" = {
         text = builtins.readFile ./hyprpaper.conf;
       };
+      ".config/tmux/tmux.conf" = {
+        text = builtins.readFile ./tmux.conf;
+      };
     };
 
     services.dunst = {
