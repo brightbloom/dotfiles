@@ -6,10 +6,18 @@
   home-manager.useUserPackages = true;
   # use global pkgs instance for evaluation (faster)
   home-manager.useGlobalPkgs = true;
-
   home-manager.users.josh = { pkgs, ... }: {
     home.stateVersion = "23.05";
-    home.packages = with pkgs; [];
+
+    home.file = {
+      ".config/hypr/hyprland.conf" = {
+        text = builtins.readFile ./hyprland.conf;
+      };
+      ".config/hypr/hyprpaper.conf" = {
+        text = builtins.readFile ./hyprpaper.conf;
+      };
+    };
+
     services.dunst = {
       enable = true;
     };
@@ -188,7 +196,7 @@
       oh-my-zsh.enable = true;
       oh-my-zsh.plugins = [
         "vi-mode"
-	"direnv"
+        "direnv"
       ];
       initExtraFirst =
 ''

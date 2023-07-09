@@ -100,7 +100,6 @@ in
     };
   };
 
-
   virtualisation = {
     podman = {
       enable = true;
@@ -149,25 +148,27 @@ in
 
   # Use Ozone where possible
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  environment.pathsToLink = ["/libexec"];
   
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    _1password-gui
+    _1password-gui # ... or just use the browser extension where copy works
     binutils # for ar
     file
     pciutils # for lspci
-    vim
+    python39
     jq
     gcc
+    lldb
     git
     firefox-wayland
     fuzzel
     lazygit
     neovim
-    neofetch
     neovide
-    bluez
+    bluez # bluetooth support
     unzip
     nodejs # for nvim's bashls
     cargo # for rust-analyzer, etc
@@ -175,33 +176,34 @@ in
     rustup
     wireshark
     rust-analyzer
-    wezterm
     kitty
     usbutils
-    geekbench
     wget
     screen
     obsidian
     ripgrep
-    wofi
+    wofi # dmenu replacement
     sway
     sway-contrib.grimshot
     swaylock
     waybar
     grim
     slurp
-    tealdeer
+    tealdeer # moar better tldr
     wl-clipboard
     zoom-us
-    zellij
-    qt6.qtwayland
+    tmux
+    qt6.qtwayland # dont remember why I needed this?
     killall
-    hyprpaper
-    delta
-    wlr-randr
-    wally-cli
+    spotify
+    hyprpaper # background
+    delta # git pager
+    wlr-randr # control monitors with cli
+    dolphin
+    nixfmt
+    wally-cli # flash ZSA keyboards
     dunst # notifications
-    zathura
+    zathura # PDF viewer
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
