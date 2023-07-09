@@ -103,11 +103,11 @@ in
   virtualisation = {
     podman = {
       enable = true;
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
-      dockerCompat = true;
       # Required for containers under podman-compose to be able to talk to each other.
       defaultNetwork.settings.dns.enable = true;
     };
+    docker.enable=true;
+    libvirtd.enable=true;
   };
 
   security.pam.services.swaylock = {
@@ -142,19 +142,19 @@ in
   # Define a user account
   users.users.josh = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "dialout" "wireshark" ]; # "wheel" is for enabling sudo
+    extraGroups = [ "wheel" "docker"  "dialout" "wireshark" "libvirt" "libvirtd" ]; # "wheel" is for enabling sudo
     shell = pkgs.zsh;
   };
 
   # Use Ozone where possible
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
+  # Needed to get some openssh libexec binaries for Vagrant
   environment.pathsToLink = ["/libexec"];
   
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    _1password-gui # ... or just use the browser extension where copy works
     binutils # for ar
     file
     pciutils # for lspci
@@ -199,11 +199,16 @@ in
     hyprpaper # background
     delta # git pager
     wlr-randr # control monitors with cli
-    dolphin
     nixfmt
     wally-cli # flash ZSA keyboards
     dunst # notifications
     zathura # PDF viewer
+    libvirt
+    gparted
+    obs-studio
+    etcher
+    vagrant
+    fd
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -214,6 +219,13 @@ in
   #   enableSSHSupport = true;
   # };
 
+  # Minimal configuration for NFS support with Vagrant.
+  services.nfs.server.enable = true;
+  # Add firewall exception for libvirt provider when using NFSv4 
+  networking.firewall.interfaces."virbr1" = {                                   
+    allowedTCPPorts = [ 2049 ];                                               
+    allowedUDPPorts = [ 2049 ];                                               
+  };     
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
