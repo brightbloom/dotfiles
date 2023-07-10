@@ -22,6 +22,12 @@
       ".config/kitty/kitty.conf" = {
         text = builtins.readFile ./kitty/kitty.conf;
       };
+      ".config/waybar/config" = {
+        text = builtins.readFile ./waybar/config;
+      };
+      ".config/waybar/style.css" = {
+        text = builtins.readFile ./waybar/style.css;
+      };
       ".config/kitty/current-theme.conf" = {
         text = builtins.readFile ./kitty/current-theme.conf;
       };
