@@ -25,8 +25,11 @@ in
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   services.blueman.enable = true;
-  hardware.bluetooth.enable = true;
+  services.fprintd.enable = true;
+  services.fprintd.tod.enable = true;
+  services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
 
+  hardware.bluetooth.enable = true;
 
   systemd.user.services.nvimserver = {
     enable = true;
@@ -59,7 +62,6 @@ in
     sway.enable = true;
     hyprland.enable = true;
     hyprland.xwayland.enable = true;
-    hyprland.xwayland.hidpi = true;
     nix-ld.enable = true;
     dconf.enable = true;
     wireshark.enable = true;
@@ -69,7 +71,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "brightbloom"; # Define your hostname.
+  networking.hostName = "luna"; # Define your hostname.
 
   networking.networkmanager.enable = true;
 
@@ -85,6 +87,7 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   services.xserver.enable = true;                      # Windowing system
+  services.xserver.desktopManager.plasma6.enable = true;
   services.xserver.displayManager.gdm.enable = true;   # Login manager
   security.pam.services.gdm.enableGnomeKeyring = true;   # Login manager
   # services.xserver.desktopManager.gnome.enable = true; # Just in case...
@@ -123,8 +126,17 @@ in
   # Enable CUPS to print documents.
   services.printing.enable = true;
   # Enable MDNS (needed for printing to Bonjour-enabled endpoints)
-  services.avahi.enable = true;
-  services.avahi.nssmdns = true;
+  services.avahi = {
+    nssmdns = true;
+    enable = true;
+    ipv4 = true;
+    ipv6 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
 
   # Enable sound; Pipewire required for WebRTC, incl. Zoom screen sharing in Wayland
   hardware.pulseaudio.enable = false;
@@ -142,7 +154,7 @@ in
   # Define a user account
   users.users.lena = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker"  "dialout" "wireshark" "libvirt" "libvirtd" ]; # "wheel" is for enabling sudo
+	extraGroups = [ "wheel" "docker"  "dialout" "wireshark" "libvirt" "libvirtd" ]; # "wheel" is for enabling sudo
     shell = pkgs.zsh;
   };
 
@@ -158,7 +170,8 @@ in
     binutils # for ar
     file
     pciutils # for lspci
-    python39
+    python3Full
+    python311Packages.pip
     jq
     gcc
     lldb
@@ -176,7 +189,9 @@ in
     rustup
     wireshark
     rust-analyzer
+    discord
     kitty
+    easyeffects
     usbutils
     wget
     screen
@@ -198,17 +213,36 @@ in
     spotify
     hyprpaper # background
     delta # git pager
+    _1password
+    _1password-gui
+    fprintd-tod
+    gcc-arm-embedded-9
+    wireguard-tools
     wlr-randr # control monitors with cli
     nixfmt
+    mercurial
     wally-cli # flash ZSA keyboards
     dunst # notifications
     zathura # PDF viewer
     libvirt
+    fuse
+    appimage-run
     gparted
+    bottles
     obs-studio
-    etcher
     vagrant
+    rpi-imager
+    xorg.libxcb.dev
+    gnupg
+    stlink
+    conda
+    gimp
     fd
+    pkg-config
+    slack
+    openssl.dev
+    libsecret
+    darktable
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -230,9 +264,12 @@ in
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.openssh.passwordAuthentication = true;
   services.dbus.enable = true;
 
   # Open ports in the firewall.
+  networking.firewall.allowPing = true;
+  networking.firewall.allowedTCPPorts = [ 22 ];
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
 

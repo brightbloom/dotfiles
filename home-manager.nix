@@ -201,10 +201,8 @@
         return config
       '';
     };
-    programs.exa = {
+    programs.eza = {
       enable = true;
-      enableAliases = true;
-      extraOptions = ["--git" "--icons"];
     };
     programs.zsh = {
       enable = true;
