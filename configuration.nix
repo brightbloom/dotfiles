@@ -25,6 +25,7 @@ in
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   services.blueman.enable = true;
+  services.tailscale.enable = true;
   services.fprintd.enable = true;
   services.fprintd.tod.enable = true;
   services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
@@ -36,32 +37,60 @@ in
     description = "nvimserver";
     path = with pkgs; [neovim bash git nodejs gcc unzip python3];
     serviceConfig = {
-      ExecStart = ''${pkgs.bash}/bin/bash -c "${pkgs.neovim}/bin/nvim --headless --listen /tmp/nvimsocket"'';
+      ExecStart = ''${pkgs.bash}/bin/bash -c "${pkgs.neovim}/bin/nvim --headless --listen /home/lena/.nvimsocket"'';
       Restart = "always";
     };
-    wantedBy =  ["multi-user.target" ]; 
+    wantedBy =  ["graphical.target" ]; 
   };
 
+    systemd.user.services.polkit-gnome-authentication-agent-1 = {
+      description = "polkit-gnome-authentication-agent-1";
+      wantedBy = ["graphical-session.target"];
+      wants = ["graphical-session.target"];
+      after = ["graphical-session.target"];
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+    };
+
+  # kanshi systemd service
+  systemd.user.services.kanshi = {
+    description = "kanshi daemon";
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = ''${pkgs.kanshi}/bin/kanshi -c kanshi_config_file'';
+    };
+  };
 
   
+
   # Normal Waybar doesn't currently support workspaces on Hyprland; set the experimental flag
-  nixpkgs.overlays = [
-    (self: super: {
-      waybar = super.waybar.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      });
-    })
-  ];
+  # nixpkgs.overlays = [
+  #   (self: super: {
+  #     waybar = super.waybar.overrideAttrs (oldAttrs: {
+  #       mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+  #     });
+  #   })
+  # ];
 
   programs = {
+    light.enable = true;
+    # enable sway window manager
+    sway = {
+      enable = true;
+      wrapperFeatures.gtk = true;
+    };
     neovim = {
       enable = true;
       vimAlias = true;
     };
     zsh.enable = true;
-    sway.enable = true;
-    hyprland.enable = true;
-    hyprland.xwayland.enable = true;
+    # hyprland.enable = true;
+    # hyprland.xwayland.enable = true;
     nix-ld.enable = true;
     dconf.enable = true;
     wireshark.enable = true;
@@ -104,6 +133,8 @@ in
   };
 
   virtualisation = {
+    virtualbox.host.enable = true;
+    virtualbox.host.enableExtensionPack = true;
     podman = {
       enable = true;
       # Required for containers under podman-compose to be able to talk to each other.
@@ -154,7 +185,7 @@ in
   # Define a user account
   users.users.lena = {
     isNormalUser = true;
-	extraGroups = [ "wheel" "docker"  "dialout" "wireshark" "libvirt" "libvirtd" ]; # "wheel" is for enabling sudo
+	extraGroups = [ "wheel" "docker"  "dialout" "wireshark" "libvirt" "libvirtd" "vboxusers" ]; # "wheel" is for enabling sudo
     shell = pkgs.zsh;
   };
 
@@ -195,7 +226,7 @@ in
     usbutils
     wget
     screen
-    obsidian
+    # obsidian
     ripgrep
     wofi # dmenu replacement
     sway
@@ -205,6 +236,7 @@ in
     grim
     slurp
     tealdeer # moar better tldr
+    sutils
     wl-clipboard
     zoom-us
     tmux
@@ -222,6 +254,7 @@ in
     nixfmt
     mercurial
     wally-cli # flash ZSA keyboards
+    ungoogled-chromium
     dunst # notifications
     zathura # PDF viewer
     libvirt
@@ -233,25 +266,52 @@ in
     vagrant
     rpi-imager
     xorg.libxcb.dev
+    magic-wormhole
+    pavucontrol
     gnupg
+    linuxsampler
+    fzf
+    qsampler
+    notion-app-enhanced
     stlink
+    kicad
     conda
     gimp
+    xorg.libXext
+    udev
+    stm32cubemx
+    saleae-logic-2
     fd
     pkg-config
+    libreoffice
+    parallel
+    openvpn3
+    remmina
+    signal-desktop
+    fuzzel
+    neovide
+    units
+    ddccontrol
+    i2c-tools
+    ddccontrol-db
+    bambu-studio
+    nix-index
     slack
     openssl.dev
+    ansible
     libsecret
+    nebula
     darktable
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+  programs.gnupg.agent.pinentryPackage = pkgs.pinentry-gnome3;
 
   # Minimal configuration for NFS support with Vagrant.
   services.nfs.server.enable = true;

@@ -9,10 +9,14 @@
 		"scroll-step": 5,
 		"format": "{icon} {volume}%",
 		"format-muted": "{icon} {volume}%",
-		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
 		"format-icons": {
-			"default": ["", "", ""]
-		}
+			"default": ["", "", ""],
+      "phone": "",
+      "portable": "",
+      "default": ["", ""]
+		},
+    "on-click": "pavucontrol",
+    "ignored-sinks": ["Easy Effects Sink"]
 	},
 
 
@@ -59,10 +63,33 @@
 		"icon-size":18,
 		"spacing": 13
 	},
-    "clock": {
-        "format": "{: %I:%M %p}"
-        // "format": "{: %I:%M %p   %d/%m/%Y}"
+  "clock": {
+      "format": "{:%H:%M}  ",
+      "format-alt": "{:%A, %B %d, %Y (%R)}  ",
+      "tooltip-format": "<tt><small>{calendar}</small></tt>",
+      "calendar": {
+                  "mode"          : "year",
+                  "mode-mon-col"  : 3,
+                  "weeks-pos"     : "right",
+                  "on-scroll"     : 1,
+                  "format": {
+                            "months":     "<span color='#ffead3'><b>{}</b></span>",
+                            "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                            "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                            "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                            "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+                            }
+                  },
+        "actions":  {
+                    "on-click-right": "mode",
+                    "on-click-forward": "tz_up",
+                    "on-click-backward": "tz_down",
+                    "on-scroll-up": "shift_up",
+                    "on-scroll-down": "shift_down"
+                    }
     },
+
+
     "cpu": {
         "interval": 1,
         "format": " {usage}% {max_frequency}GHz",
@@ -74,9 +101,9 @@
         "max-length": 10
     },
     "custom/launcher":{
-        "format": "  brightbloom ",
-        "on-click": "wofi -show drun",
-        "on-click-right": "killall wofi"
+        "format": "  luna ",
+        "on-click": "fuzzel",
+        "on-click-right": "killall fuzzel"
     },
     "custom/wallpaper":{
         "format":" ",
