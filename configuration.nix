@@ -213,6 +213,7 @@ in
     neovim
     neovide
     bluez # bluetooth support
+    unixtools.xxd
     unzip
     nodejs # for nvim's bashls
     cargo # for rust-analyzer, etc
@@ -275,9 +276,12 @@ in
     notion-app-enhanced
     stlink
     kicad
+    popsicle
     conda
     gimp
     xorg.libXext
+    mqttx
+    mosquitto
     udev
     stm32cubemx
     saleae-logic-2
